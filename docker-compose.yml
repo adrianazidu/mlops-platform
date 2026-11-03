@@ -86,7 +86,7 @@ services:
 
   # 3. MLflow Model Registry
   mlflow:
-    image: ghcr.io/mlflow/mlflow:v2.13.0
+    image: ghcr.io/mlflow/mlflow:v3.17.2-full
     container_name: mlops-mlflow
     restart: always
     environment:
@@ -112,10 +112,10 @@ services:
 
   # 4. Ray Distributed Compute Engine - Dashboard, cluster state, and job scheduling
   ray-head:
-    image: rayproject/ray:2.24.0-py310
+    image: rayproject/ray:2.30.0-py310
     container_name: mlops-ray-head
     command: >
-      bash -c "/home/ray/anaconda3/bin/pip install mlflow==2.13.0 scikit-learn==1.5.0 boto3==1.34.120 &&
+      bash -c "/home/ray/anaconda3/bin/pip install mlflow==2.13.0 scikit-learn==1.5.0 boto3==1.34.120 'opentelemetry-api>=1.24.0' 'opentelemetry-sdk>=1.24.0' &&
                ray start --head --port=6379 --dashboard-host=0.0.0.0 --dashboard-port=8265 --block"
     environment:
       AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
@@ -133,11 +133,11 @@ services:
 
   #Heavy compute, training, and data workers
   ray-worker:
-    image: rayproject/ray:2.24.0-py310
+    image: rayproject/ray:2.30.0-py310
     container_name: mlops-ray-worker
     command: >
-      bash -c "/home/ray/anaconda3/bin/pip install mlflow==2.13.0 scikit-learn==1.5.0 boto3==1.34.120 &&
-               ray start --address=ray-head:6379 --block"
+      bash -c "/home/ray/anaconda3/bin/pip install mlflow==2.13.0 scikit-learn==1.5.0 boto3==1.34.120 'opentelemetry-api>=1.24.0' 'opentelemetry-sdk>=1.24.0' &&
+      ray start --address=ray-head:6379 --block"
     depends_on:
       - ray-head
     environment:
