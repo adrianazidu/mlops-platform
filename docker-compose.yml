@@ -114,7 +114,9 @@ services:
   ray-head:
     image: rayproject/ray:2.24.0-py310
     container_name: mlops-ray-head
-    command: ray start --head --dashboard-host=0.0.0.0 --port=6379 --dashboard-port=8265 --block
+    command: >
+      bash -c "/home/ray/anaconda3/bin/pip install mlflow==2.13.0 scikit-learn==1.5.0 boto3==1.34.120 &&
+               ray start --head --port=6379 --dashboard-host=0.0.0.0 --dashboard-port=8265 --block"
     environment:
       AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
       AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
@@ -133,7 +135,9 @@ services:
   ray-worker:
     image: rayproject/ray:2.24.0-py310
     container_name: mlops-ray-worker
-    command: ray start --address=ray-head:6379 --block
+    command: >
+      bash -c "/home/ray/anaconda3/bin/pip install mlflow==2.13.0 scikit-learn==1.5.0 boto3==1.34.120 &&
+               ray start --address=ray-head:6379 --block"
     depends_on:
       - ray-head
     environment:
