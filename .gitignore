@@ -1,0 +1,52 @@
+# --- Security & Secrets ---
+.env
+*.pem
+*.key
+info.txt
+
+# --- Python & Virtual Environments ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- Pipeline & Runtime Storage ---
+airflow/logs/
+airflow/plugins/
+mlruns/
+.mlflow/
+
+# --- Local Docker Mounts & Data Dumps ---
+postgres_data/
+minio_data/
+prometheus_data/
+grafana_data/
+*.sql
+*.tar.gz
+
+# --- OS & Editor Metadata ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

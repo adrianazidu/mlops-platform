@@ -1,0 +1,15 @@
+# Global scrape interval (polling rate)
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  # Scrapes FastAPI inference metrics (latency, HTTP error rate, entropy)
+  - job_name: 'fastapi-serving'
+    static_configs:
+      - targets: ['serving:8000']
+    metrics_path: '/metrics'
+
+  # Scrapes Ray cluster telemetry from Ray Head
+  - job_name: 'ray'
+    static_configs:
+      - targets: ['ray-head:8265']
